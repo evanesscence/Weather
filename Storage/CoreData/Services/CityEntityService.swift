@@ -32,7 +32,7 @@ final class CityEntityService {
     
     private func getNextOrderIndex() -> Int16 {
         let fetchRequest: NSFetchRequest<CityEntity> = CityEntity.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
         fetchRequest.fetchLimit = 1
         
         do {
@@ -62,13 +62,13 @@ final class CityEntityService {
             return
         }
         
+        
+        
         if let firstCity = getCity(with: firstItemId),
            let secondCity = getCity(with: secondItemId) {
-            
             let firstCityOrder = firstCity.order
-            firstCity.order = secondCity.order
+            firstCity.order += 1
             secondCity.order = firstCityOrder
-            
             coreDataManager.saveContext()
         }
     }

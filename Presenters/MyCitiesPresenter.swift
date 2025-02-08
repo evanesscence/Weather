@@ -124,7 +124,39 @@ final class MyCitiesPresenter: MyCitiesPresenterProtocol {
     
     func moveCity(from sourceIndex: Int, to destinationIndex: Int) {
         guard sourceIndex != destinationIndex else { return }
-        cityEntityService.changeOrder(from: sourceIndex, to: destinationIndex)
+            guard let cities = fetchedResultController.fetchedObjects else { return }
+
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+
+            // Изменяем порядок (order) городов
+            let movedCity = cities[sourceIndex]
+            var updatedCities = cities
+
+            updatedCities.remove(at: sourceIndex)
+            updatedCities.insert(movedCity, at: destinationIndex)
+
+            for (index, city) in updatedCities.enumerated() {
+                city.order = Int16(index)  // Обновляем поле order
+            }
+
+        CoreDataManager.shared.saveContext()
+//        guard sourceIndex != destinationIndex,
+//        var cities = fetchedResultController.fetchedObjects else { return }
+//        
+//            
+//            let movedCity = cities[sourceIndex]
+//
+//            // Удаляем и вставляем в новый индекс
+//            var updatedCities = cities
+//            updatedCities.remove(at: sourceIndex)
+//            updatedCities.insert(movedCity, at: destinationIndex)
+//
+//        for (index, city) in updatedCities.enumerated() {
+//                city.order = Int16(index)
+//            }
+//
+//        
+//        CoreDataManager.shared.saveContext()
     }
 }
 

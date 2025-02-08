@@ -73,10 +73,8 @@ final class MyCityTableViewCell: UITableViewCell {
         switch hour {
         case 6..<18:
             newImages = images.filter { $0.lowercased().hasPrefix("d") }
-        case 18..<6:
-            newImages = images.filter { $0.lowercased().hasPrefix("n") }
         default:
-            newImages = images
+            newImages = images.filter { $0.lowercased().hasPrefix("n") }
         }
         
         guard let imageName = newImages.randomElement() else { return }

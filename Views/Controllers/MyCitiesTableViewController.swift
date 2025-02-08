@@ -102,7 +102,7 @@ final class MyCitiesTableViewController: UITableViewController, MyCitiesViewProt
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        presenter.moveCity(from: destinationIndexPath.row, to: sourceIndexPath.row)
+        presenter.moveCity(from: sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -237,10 +237,11 @@ extension MyCitiesTableViewController: NSFetchedResultsControllerDelegate {
                 var cell = tableView.cellForRow(at: newIndexPath)
                 cell?.layer.cornerRadius = 20
                 cell?.layer.masksToBounds = true
-          
+                
                 print("updt")
             }
         case .move:
+            print("moved")
             if let indexPath = indexPath, let newIndexPath = newIndexPath {
                 tableView.moveRow(at: indexPath, to: newIndexPath)
             }

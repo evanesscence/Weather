@@ -37,7 +37,8 @@ final class Network {
         components.queryItems = [
             URLQueryItem(name: "key", value: Constants.APIKey),
             URLQueryItem(name: "q", value: city),
-            URLQueryItem(name: "lang", value: "ru")
+            URLQueryItem(name: "lang", value: "ru"),
+            URLQueryItem(name: "day", value: "7"),
         ]
         return components.url
     }

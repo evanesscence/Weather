@@ -24,8 +24,8 @@
                         <color key="backgroundColor" name="WGray"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CityName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8q-bM-7Uw">
-                        <rect key="frame" x="16" y="16" width="89" height="24"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                        <rect key="frame" x="16" y="15.999999999999998" width="99" height="26.333333333333321"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -41,6 +41,12 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zWH-vM-AfE" userLabel="LocalTime">
+                        <rect key="frame" x="16" y="44.333333333333336" width="40" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <color key="textColor" systemColor="underPageBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" name="WGray"/>
                 <constraints>
@@ -48,12 +54,14 @@
                     <constraint firstItem="dBE-e3-yG1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="9j2-px-GJq"/>
                     <constraint firstItem="wPH-5C-jPg" firstAttribute="centerY" secondItem="dBE-e3-yG1" secondAttribute="centerY" id="C19-vV-vfm"/>
                     <constraint firstItem="dBE-e3-yG1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="OIa-E8-vgC"/>
+                    <constraint firstItem="zWH-vM-AfE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ak4-aw-57m"/>
                     <constraint firstAttribute="trailing" secondItem="wPH-5C-jPg" secondAttribute="trailing" constant="16" id="dhZ-kt-4gn"/>
                     <constraint firstItem="H8q-bM-7Uw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="fVT-F9-CFR"/>
                     <constraint firstItem="H8q-bM-7Uw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="hHz-cM-Gfd"/>
                     <constraint firstAttribute="bottom" secondItem="dBE-e3-yG1" secondAttribute="bottom" constant="12" id="uxC-aV-BIj"/>
                     <constraint firstItem="dBE-e3-yG1" firstAttribute="bottom" secondItem="y0L-nF-VPo" secondAttribute="bottom" constant="16" id="yu7-Gk-Ooq"/>
                     <constraint firstItem="y0L-nF-VPo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="z0T-LE-d1Q"/>
+                    <constraint firstItem="zWH-vM-AfE" firstAttribute="top" secondItem="H8q-bM-7Uw" secondAttribute="bottom" constant="2" id="zfi-Uf-7p9"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -63,6 +71,7 @@
                 <outlet property="cityName" destination="H8q-bM-7Uw" id="3vx-BK-he6"/>
                 <outlet property="condition" destination="y0L-nF-VPo" id="XGt-SW-rle"/>
                 <outlet property="tempLabel" destination="wPH-5C-jPg" id="dwS-JS-RI1"/>
+                <outlet property="timeLabel" destination="zWH-vM-AfE" id="T5D-UM-uuq"/>
                 <outlet property="weatherImageView" destination="dBE-e3-yG1" id="QQH-my-TqQ"/>
             </connections>
             <point key="canvasLocation" x="710.68702290076328" y="-1.4084507042253522"/>
@@ -73,7 +82,7 @@
             <color red="0.1289999932050705" green="0.14499999582767487" blue="0.18799999356269836" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="underPageBackgroundColor">
-            <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.70980392160000005" green="0.71764705880000002" blue="0.74117647060000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

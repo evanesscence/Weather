@@ -4,6 +4,7 @@
         <attribute name="condition" optional="YES" attributeType="String"/>
         <attribute name="feelsLike" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="localTime" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="temperature" optional="YES" attributeType="String"/>

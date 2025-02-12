@@ -5,8 +5,9 @@ final class DefaultDataManager {
     weak var delegate: MyCitiesPresenterProtocol?
     
     private let coreDataManager = CoreDataManager.shared
+    private let cityEntityService = CityEntityService.shared
     private let network = Network.shared
-    private let defaultCities = ["Москва"]
+    private var defaultCities = ["Москва"]
     
     func getDefaultCities() -> [String] {
         defaultCities
@@ -20,8 +21,8 @@ final class DefaultDataManager {
             if count == 0 {
                 loadDefaultCities()
             } else {
+                defaultCities = cityEntityService.getCitiesNames()
                 delegate?.updateCitiesInTableView()
-                print("def")
             }
         } catch {
             print("Failed to check city count: \(error)")
@@ -30,19 +31,14 @@ final class DefaultDataManager {
     
     private func loadDefaultCities() {
         let dispatchGroup = DispatchGroup()
-        
         for city in defaultCities {
             dispatchGroup.enter()
             Network.shared.fetchWeather(city: city) { [weak self] result in
                 guard let self else { return }
                 switch result {
                 case .success(let weather):
-                    let cityEntity = CityEntity(context: coreDataManager.context)
-                    cityEntity.id = UUID()
-                    cityEntity.name = city
-                    cityEntity.condition = weather.current.condition.text
-                    cityEntity.feelsLike = String(weather.current.feelslikeC)
-                    cityEntity.temperature = String(weather.current.tempC)
+                    let weatherModel = convertToWeatherModel(for: weather)
+                    cityEntityService.addCity(weatherModel)
                 case .failure(let error):
                     print(error.errorDescription)
                 }
@@ -59,5 +55,23 @@ final class DefaultDataManager {
                 delegate?.updateCitiesInTableView()
             }
         }
+    }
+    
+    private func convertToWeatherModel(for model: WeatherNetworkModel) -> WeatherModel {
+        let weather = WeatherModel(
+            cityName: model.location.name,
+            temperature: createWeatherTempText(for: model.current.tempC),
+            feelsLike: "Ощущается как " + createWeatherTempText(for: model.current.feelslikeC) + "°",
+            condition: model.current.condition.text,
+            order: 0,
+            localTime: DateHelper.extractTime(from: model.location.localtime)
+        )
+        
+        return weather
+    }
+    
+    private func createWeatherTempText(for temp: Double) -> String {
+        let roundTemp = Int(temp)
+        return "\(roundTemp)"
     }
 }

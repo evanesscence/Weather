@@ -64,16 +64,19 @@ final class WeatherPresenter: WeatherPresenterProtocol {
         let weather = WeatherModel(
             cityName: model.location.name,
             temperature: createWeatherTempText(for: model.current.tempC),
-            feelsLike: "Ощущается как " + createWeatherTempText(for: model.current.feelslikeC),
+            feelsLike: "Ощущается как " + createWeatherTempText(for: model.current.feelslikeC) + "°",
             condition: model.current.condition.text,
-            order: 0
+            order: 0, 
+            localTime: DateHelper.extractTime(from: model.location.localtime)
         )
+    
+        print(model.location.localtime)
         return weather
     }
     
     private func createWeatherTempText(for temp: Double) -> String {
         let roundTemp = Int(temp)
-        return "\(roundTemp)°"
+        return "\(roundTemp)"
     }
 }
 

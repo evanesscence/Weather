@@ -6,4 +6,5 @@ struct WeatherModel {
     let feelsLike: String
     let condition: String
     let order: Int16
+    let localTime: String
 }

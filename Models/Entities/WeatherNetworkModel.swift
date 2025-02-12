@@ -4,6 +4,7 @@ import Foundation
 struct WeatherNetworkModel: Codable {
     let location: Location
     let current: Current
+    let forecast: Forecast
 }
 
 // MARK: - Current
@@ -22,10 +23,40 @@ struct Current: Codable {
 
 // MARK: - Condition
 struct Condition: Codable {
-    let text: String
+    let text, icon: String
 }
 
 // MARK: - Location
 struct Location: Codable {
-    let name, region, country: String
+    let name, region, country, localtime: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name, region, country, localtime
+    }
+}
+
+// MARK: - Forecast
+struct Forecast: Codable {
+    let forecastday: [Forecastday]
+}
+
+struct Forecastday: Codable {
+    let date: String
+    let day: Day
+    let hour: [Hour]
+}
+
+struct Day: Codable {
+    let maxtempC, mintempC: Double
+    let condition: Condition
+
+    enum CodingKeys: String, CodingKey {
+        case maxtempC = "maxtemp_c"
+        case mintempC = "mintemp_c"
+        case condition
+    }
+}
+
+struct Hour: Codable {
+    let time: String?
 }

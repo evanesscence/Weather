@@ -26,6 +26,7 @@ final class CityEntityService {
         newCity.feelsLike = model.feelsLike
         newCity.temperature = model.temperature
         newCity.order = getNextOrderIndex()
+        newCity.localTime = model.localTime
         
         coreDataManager.saveContext()
     }
@@ -62,8 +63,6 @@ final class CityEntityService {
             return
         }
         
-        
-        
         if let firstCity = getCity(with: firstItemId),
            let secondCity = getCity(with: secondItemId) {
             let firstCityOrder = firstCity.order
@@ -84,6 +83,69 @@ final class CityEntityService {
             print("Ошибка при получении города: \(error)")
             return nil
         }
+    }
+    
+    func updateCity(named cityName: String, with model: WeatherModel) {
+        do {
+            if let city = getCity(by: cityName) {
+                city.localTime = model.localTime
+                city.condition = model.condition
+                city.feelsLike = model.feelsLike
+                city.temperature = model.temperature
+                
+                try coreDataManager.context.save()
+            } else {
+                print("⚠️ Город \(cityName) не найден")
+            }
+        }
+        catch {
+            print("❌ Ошибка при обновлении города: \(error)")
+        }
+    }
+        
+    private func getCity(by name: String) -> CityEntity? {
+        let request = CityEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", name)
+        
+        do {
+            let cities = try coreDataManager.context.fetch(request)
+            return cities.first
+        } catch {
+            print("❌ Ошибка при получении города: \(error)")
+        }
+        
+        return nil
+    }
+    
+    func getCitiesNames() -> [String] {
+        let request = CityEntity.fetchRequest()
+        
+        do {
+            let cities = try coreDataManager.context.fetch(request)
+            return cities.compactMap { $0.name }
+        } catch {
+            print("Ошибка при загрузке городов: \(error)")
+            return []
+        }
+    }
+    
+    func getWeatherModel(by name: String) -> WeatherModel? {
+        guard let cityEntity = getCity(by: name),
+              let temperature = cityEntity.temperature,
+              let name = cityEntity.name,
+              let feelsLike = cityEntity.feelsLike,
+              let condition = cityEntity.condition,
+              let localTime = cityEntity.localTime
+        else { return nil }
+        let weatherModel = WeatherModel(
+            cityName: name,
+            temperature: temperature,
+            feelsLike: feelsLike,
+            condition: condition,
+            order: cityEntity.order,
+            localTime: localTime
+        )
+        return weatherModel
     }
     
     func removeCityFromCoreData(_ cityName: String) {

@@ -100,25 +100,21 @@ final class MyCitiesTableViewController: UITableViewController, MyCitiesViewProt
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let isDefaultCitiesContainsCity = presenter.isDefaultCitiesContainsCity(at: indexPath)
-        if isDefaultCitiesContainsCity {
-            let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] (_, _, completion) in
-                guard let self else { return }
-                presenter.trailingSwipeActionsConfigurationForRowAt(indexPath: indexPath)
-                completion(true)
-            }
-            
-            deleteAction.backgroundColor = UIColor.wGray
-            deleteAction.image = createRoundedButtonWithIcon(
-                backgroundColor: .red,
-                icon: UIImage(systemName: "trash")!.withTintColor(.white, renderingMode: .alwaysOriginal),
-                size: CGSize(width: 40, height: 40),
-                cornerRadius: 20
-            )
-            
-            return UISwipeActionsConfiguration(actions: [deleteAction])
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] (_, _, completion) in
+            guard let self else { return }
+            presenter.trailingSwipeActionsConfigurationForRowAt(indexPath: indexPath)
+            completion(true)
         }
-        return nil
+        
+        deleteAction.backgroundColor = UIColor.wGray
+        deleteAction.image = createRoundedButtonWithIcon(
+            backgroundColor: .red,
+            icon: UIImage(systemName: "trash")!.withTintColor(.white, renderingMode: .alwaysOriginal),
+            size: CGSize(width: 40, height: 40),
+            cornerRadius: 20
+        )
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     func createRoundedButtonWithIcon(backgroundColor: UIColor, icon: UIImage, size: CGSize, cornerRadius: CGFloat) -> UIImage? {

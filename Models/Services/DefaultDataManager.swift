@@ -22,6 +22,7 @@ final class DefaultDataManager {
                 loadDefaultCities()
             } else {
                 defaultCities = cityEntityService.getCitiesNames()
+                loadDefaultCities()
                 delegate?.updateCitiesInTableView()
             }
         } catch {
@@ -38,11 +39,10 @@ final class DefaultDataManager {
                 switch result {
                 case .success(let weather):
                     let weatherModel = convertToWeatherModel(for: weather)
-                    cityEntityService.addCity(weatherModel)
+                    defaultCities.count == 1 ? cityEntityService.addCity(weatherModel) : cityEntityService.updateCity(named: city, with: weatherModel)
                 case .failure(let error):
                     print(error.errorDescription)
                 }
-                
                 dispatchGroup.leave()
             }
         }

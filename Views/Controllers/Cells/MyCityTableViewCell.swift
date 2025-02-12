@@ -1,17 +1,21 @@
 import SwiftGifOrigin
 import UIKit
 
-final class MyCityTableViewCell: UITableViewCell {
+final class MyCityTableViewCell: UITableViewCell, MyCityCellProtocol {
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var condition: UILabel!
     @IBOutlet weak var cityName: UILabel!
     @IBOutlet weak var weatherImageView: UIImageView!
+    
     let gradientLayer = CAGradientLayer()
+    private let presenter: MyCityPresenterProtocol = MyCityPresenter()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .wGray
         
+        presenter.setViewForPresenter(view: self)
         setupGradientLayer()
         setupAnimatedImage()
         
@@ -20,92 +24,23 @@ final class MyCityTableViewCell: UITableViewCell {
     }
     
     func configure(with model: WeatherModel) {
-        var imagesNames = [String]()
-        
-        if model.condition.lowercased().contains("туман") || model.condition.lowercased().contains("дым") {
-            imagesNames = ["DFog-1", "DFog-2", "NCloudy-1"]
-        }
-        
-        else if  model.condition.lowercased().contains("облач") {
-            imagesNames = ["DCloudy-1", "NCloudy-1"]
-        }
-        
-        else if model.condition.lowercased().contains("пасмурно") {
-            imagesNames = ["DCloudy-1", "NCloudy-1"]
-        }
-        
-        else if model.condition.lowercased().contains("дожд") {
-            imagesNames = ["DRain-1", "DRain-2", "NCloudy-1", "NFair-1", "NFair-2"]
-            createRain()
-        }
-        
-        else if model.condition.lowercased().contains("ясно") || model.condition.lowercased().contains("солнечно") {
-            imagesNames = ["DFair-1", "DFair-2", "DFair-1", "NFair-1", "NFair-2"]
-        }
-        
-        else if model.condition.lowercased().contains("снег") {
-            imagesNames = ["DSnow-1", "DSnow-2", "NSnow-1", "NSnow-2"]
-            createSnowflake()
-        }
-        
-        updateImageForTimeOfDay(for: imagesNames)
-        
+        presenter.configure(with: model)
         self.condition.text = model.condition
         self.cityName.text = model.cityName
-        self.tempLabel.text = createWeatherTempText(for: model.temperature)
-    }
-
-    private func createWeatherTempText(for temp: String) -> String {
-        var tempString = temp
-        
-        if tempString.removeLast() == "°" {
-            return String(tempString) + "°"
-        }
-        
-        tempString = String(Int(Double(temp) ?? 0))
-        return tempString + "°"
+        self.tempLabel.text = model.temperature + "°"
+        self.timeLabel.text = DateHelper.getTimeWithOffset(localTime: model.localTime)
     }
     
-    func updateImageForTimeOfDay(for images: [String]) {
-        let hour = Calendar.current.component(.hour, from: Date())
-        var newImages = [String]()
+    func updateTime() {
+        guard let time = timeLabel.text else { return }
+        self.timeLabel.text = DateHelper.getTimeWithOffset(localTime: time)
+    }
 
-        switch hour {
-        case 6..<18:
-            newImages = images.filter { $0.lowercased().hasPrefix("d") }
-        default:
-            newImages = images.filter { $0.lowercased().hasPrefix("n") }
-        }
-        
-        guard let imageName = newImages.randomElement() else { return }
-        
+    func setImageWithTransition(with imageName: String) {
         UIView.transition(with: weatherImageView, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.weatherImageView.image = UIImage(named: imageName)
         }, completion: nil)
     }
-    
-//    private func load(from url: String) {
-//        gradientLayer.isHidden = false
-//        UIImage.gif(url: url) { image in
-//            DispatchQueue.main.async {
-//                if let gifImage = image {
-////                    UIView.transition(
-////                        with: self.animatedImage,
-////                        duration: 0.5,
-////                        options: .transitionCrossDissolve,
-////                        animations: {
-//                            self.animatedImage.image = gifImage
-////                        },
-////                        completion: { _ in
-//                            self.gradientLayer.isHidden = true 
-////                        }
-////                    )
-//                } else {
-//                    print("Не удалось загрузить GIF")
-//                }
-//            }
-//        }
-//    }
     
     private func setupAnimatedImage() {
         weatherImageView.layer.cornerRadius = 16
@@ -124,7 +59,7 @@ final class MyCityTableViewCell: UITableViewCell {
         
     }
     
-    private func createSnowflake() {
+    func createSnowflake() {
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             guard let self else { return }
             let screenWidth = self.contentView.bounds.width
@@ -138,9 +73,8 @@ final class MyCityTableViewCell: UITableViewCell {
             
             snowflake.backgroundColor = .white.withAlphaComponent(0.5)
             snowflake.layer.cornerRadius = snowflakeSize / 2
-            
             self.contentView.addSubview(snowflake)
-      
+            
             let animationDuration = TimeInterval.random(in: 8...10)
             
             UIView.animate(withDuration: animationDuration, animations: {
@@ -152,7 +86,7 @@ final class MyCityTableViewCell: UITableViewCell {
         }
     }
     
-    private func createRain() {
+    func createRain() {
         Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] _ in
             guard let self else { return }
             let screenWidth = contentView.bounds.width
@@ -177,5 +111,9 @@ final class MyCityTableViewCell: UITableViewCell {
                 snowflake.removeFromSuperview()
             })
         }
+    }
+    
+    override func prepareForReuse() {
+        presenter.stopTimer()
     }
 }

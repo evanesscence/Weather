@@ -104,7 +104,7 @@ final class WeatherViewController: UIViewController, WeatherViewProtocol {
     
     func displayWeather(with model: WeatherModel) {
         self.cityName.text = model.cityName
-        self.tempC.text = model.temperature
+        self.tempC.text = model.temperature + "°"
         self.weatherState.text = model.condition
         self.feelsLike.text = model.feelsLike
         

@@ -104,9 +104,7 @@ final class MyCitiesPresenter: MyCitiesPresenterProtocol {
     func moveCity(from sourceIndex: Int, to destinationIndex: Int) {
         guard sourceIndex != destinationIndex else { return }
             guard let cities = fetchedResultController.fetchedObjects else { return }
-
-            let context = CoreDataManager.shared.persistentContainer.viewContext
-
+        
             // Изменяем порядок (order) городов
             let movedCity = cities[sourceIndex]
             var updatedCities = cities

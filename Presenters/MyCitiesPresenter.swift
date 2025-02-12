@@ -48,24 +48,12 @@ final class MyCitiesPresenter: MyCitiesPresenterProtocol {
         cities
     }
     
-    func getCityName(at indexPath: IndexPath) -> String? {
-        guard let cityName = fetchedResultController.object(at: indexPath).name else { return nil }
-        return cityName
-    }
-    
-    func getCondition(at indexPath: IndexPath) -> String? {
-        guard let condition = fetchedResultController.object(at: indexPath).condition else { return nil }
-        return condition
-    }
-    
-    func getTemperature(at indexPath: IndexPath) -> String? {
-        guard let temperature = fetchedResultController.object(at: indexPath).temperature else { return nil }
-        return temperature
-    }
-    
-    func getOrder(at indexPath: IndexPath) -> Int16 {
-        let order = fetchedResultController.object(at: indexPath).order
-        return order
+    func getCity(at indexPath: IndexPath) -> WeatherModel? {
+        guard
+            let cityName = fetchedResultController.object(at: indexPath).name,
+            let city = cityEntityService.getWeatherModel(by: cityName)
+        else { return nil }
+        return city
     }
     
     func removeCityFromCoreData(_ cityName: String) {
@@ -113,7 +101,6 @@ final class MyCitiesPresenter: MyCitiesPresenterProtocol {
     }
     
     func updateCitiesInTableView() {
-        print("reload")
         do {
             try fetchedResultController.performFetch()
             view?.reloadData()

@@ -7,10 +7,7 @@ protocol MyCitiesPresenterProtocol: AnyObject, CitySelectionProtocol {
     func didLoad(view: MyCitiesViewProtocol)
     func shouldShowWeatherOfMainCity()
     func getNumberOfRowsInSection(_ section: Int) -> Int
-    func getCityName(at indexPath: IndexPath) -> String?
-    func getCondition(at indexPath: IndexPath) -> String?
-    func getTemperature(at indexPath: IndexPath) -> String?
-    func getOrder(at indexPath: IndexPath) -> Int16
+    func getCity(at indexPath: IndexPath) -> WeatherModel?
     func removeCityFromCoreData(_ cityName: String)
     func addCity(_ model: WeatherModel)
     func configure(for view: WeatherViewProtocol)

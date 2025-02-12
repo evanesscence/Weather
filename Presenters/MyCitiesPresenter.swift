@@ -18,14 +18,6 @@ final class MyCitiesPresenter: MyCitiesPresenterProtocol {
         defaultDataManager.loadDefaultCitiesIfNeeded()
     }
     
-//    init(view: MyCitiesViewProtocol) {
-//        self.view = view
-//        self.defaultDataManager = DefaultDataManager.shared
-//        self.cityEntityService = CityEntityService.shared
-//        self.cities = CitiesStorage.loadCities()
-//        updateCitiesInTableView()
-//    }
-    
     func didLoad(view: MyCitiesViewProtocol) {
         self.view = view
         self.cities = CitiesStorage.loadCities()
@@ -127,23 +119,6 @@ final class MyCitiesPresenter: MyCitiesPresenterProtocol {
             }
 
         CoreDataManager.shared.saveContext()
-//        guard sourceIndex != destinationIndex,
-//        var cities = fetchedResultController.fetchedObjects else { return }
-//        
-//            
-//            let movedCity = cities[sourceIndex]
-//
-//            // Удаляем и вставляем в новый индекс
-//            var updatedCities = cities
-//            updatedCities.remove(at: sourceIndex)
-//            updatedCities.insert(movedCity, at: destinationIndex)
-//
-//        for (index, city) in updatedCities.enumerated() {
-//                city.order = Int16(index)
-//            }
-//
-//        
-//        CoreDataManager.shared.saveContext()
     }
 }
 

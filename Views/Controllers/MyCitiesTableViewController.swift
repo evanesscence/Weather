@@ -5,9 +5,9 @@ final class MyCitiesTableViewController: UITableViewController, MyCitiesViewProt
     
     var presenter: MyCitiesPresenterProtocol = MyCitiesPresenter()
     var searchController: UISearchController = UISearchController()
-    private let resultController = AllCitiesTableViewController()
-    
     var isFirstAppear = true
+    
+    private let resultController = AllCitiesTableViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,33 +67,23 @@ final class MyCitiesTableViewController: UITableViewController, MyCitiesViewProt
             withIdentifier: "MyCityTableViewCell",
             for: indexPath
         ) as! MyCityTableViewCell
-        //        cell.configure(with: "https://media.giphy.com/media/t7Qb8655Z1VfBGr5XB/giphy.gif?cid=790b7611b3hhs3ilc36wcr1g3n9edozz8ds2g5atxtw9pcsz&ep=v1_gifs_search&rid=giphy.gif&ct=g")
-        //
-        let weatherCondition = presenter.getCondition(at: indexPath)
-        let weatherName = presenter.getCityName(at: indexPath)
-        let weatherTemperature = presenter.getTemperature(at: indexPath)
-        let weatherOrder = presenter.getOrder(at: indexPath)
-        
-        let weatherModel = WeatherModel(cityName: weatherName ?? "", temperature: weatherTemperature ?? "", feelsLike: "", condition: weatherCondition ?? "", order: weatherOrder)
-    
-        cell.configure(with: weatherModel)
-        
-        
+        if let weatherModel = presenter.getCity(at: indexPath) {
+            cell.configure(with: weatherModel)
+        }
         return cell
     }
 
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "ShowWeatherViewController", sender: indexPath)
-        //        dismiss(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowWeatherViewController",
            let destinationVC = segue.destination as? WeatherViewController,
-           let indexPath = sender as? IndexPath {  // Получаем indexPath из sender
-            
-            destinationVC.presenter.selectedCity = presenter.getCityName(at: indexPath) ?? "Москва"
+           let indexPath = sender as? IndexPath,
+           let cityName = presenter.getCity(at: indexPath)?.cityName
+        {  // Получаем indexPath из sender
+            destinationVC.presenter.selectedCity = cityName
         }
     }
     
@@ -152,7 +142,7 @@ final class MyCitiesTableViewController: UITableViewController, MyCitiesViewProt
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        120
+        132
     }
     
     func showWeatherOfMainCity() {
@@ -237,11 +227,8 @@ extension MyCitiesTableViewController: NSFetchedResultsControllerDelegate {
                 var cell = tableView.cellForRow(at: newIndexPath)
                 cell?.layer.cornerRadius = 20
                 cell?.layer.masksToBounds = true
-                
-                print("updt")
             }
         case .move:
-            print("moved")
             if let indexPath = indexPath, let newIndexPath = newIndexPath {
                 tableView.moveRow(at: indexPath, to: newIndexPath)
             }
@@ -250,4 +237,3 @@ extension MyCitiesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
-

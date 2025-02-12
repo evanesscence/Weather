@@ -10,7 +10,6 @@ final class MyCityPresenter: MyCityPresenterProtocol {
     
     func setViewForPresenter(view: MyCityCellProtocol? = nil) {
         self.view = view
-        startTimer()
     }
     
     func configure(with model: WeatherModel) {
@@ -44,6 +43,7 @@ final class MyCityPresenter: MyCityPresenterProtocol {
         
         self.cityName = model.cityName
         updateImageForTimeOfDay(for: imagesNames)
+        startTimer()
     }
     
     private func updateImageForTimeOfDay(for images: [String]) {

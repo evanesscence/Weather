@@ -4,7 +4,7 @@
 
 ## Демонстрация работы
 
-[Смотреть видео](https://disk.yandex.ru/i/V_iZALzDHIiYbA)
+[Смотреть видео](https://disk.yandex.ru/d/iJFHkL99hJsWMw/Simulator%20Screen%20Recording%20-%20iPhone%2015%20Pro%20Max%20-%202025-02-13%20at%2022.34.05.mp4)
 
 ## Описание
 

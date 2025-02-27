@@ -3,6 +3,10 @@
 Сейчас в разработке: **прогноз погоды на неделю и расширение списка городов со всего мира**.
 
 ## Демонстрация работы
+![Simulator Screenshot - iPhone 15 Pro Max - 2025-02-28 at 01 38 10](https://github.com/user-attachments/assets/08689777-ca28-4451-8aab-f2b937bb7c7c)
+![Simulator Screenshot - iPhone 15 Pro Max - 2025-02-28 at 01 38 54](https://github.com/user-attachments/assets/0f3beb6a-40ad-42df-a2b0-85755cf08f97)
+![Simulator Screenshot - iPhone 15 Pro Max - 2025-02-28 at 01 39 08](https://github.com/user-attachments/assets/b1681960-94f9-499e-bf70-287d804![Simulator Screenshot - iPhone 15 Pro Max - 2025-02-28 at 01 41 24](https://github.com/user-attachments/assets/58107d53-1928-4bfd-a70f-26c2ca05a862)
+26d6a)![Simulator Screenshot - iPhone 15 Pro Max - 2025-02-28 at 01 43 11](https://github.com/user-attachments/assets/d7336463-0fa4-41c2-ac5b-8c01b0066db0)
 
 [Смотреть видео](https://disk.yandex.ru/d/iJFHkL99hJsWMw/Simulator%20Screen%20Recording%20-%20iPhone%2015%20Pro%20Max%20-%202025-02-13%20at%2022.34.05.mp4)
 
